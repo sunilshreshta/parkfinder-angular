@@ -19,6 +19,14 @@ export class MapBoxComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    //tracking user location _______________________________________
+    let _res = this.getUserPosition() ;
+    _res
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error)) ;
+
+    // MAP BOX Initialization / Configuration ________________________________
     let latitude = 41.3879;
     let longitude = 2.16992;
     this.map = new mapboxgl.Map({
@@ -31,16 +39,43 @@ export class MapBoxComponent implements OnInit {
      // Add zoom and rotation controls to the map.
      this.map.addControl(new mapboxgl.NavigationControl());
      this.map.addControl(new mapboxgl.FullscreenControl());
-     let parent: MapBoxComponent = this ;
-     if (navigator.geolocation) {
-         navigator.geolocation.getCurrentPosition((data) => {
-           parent.setMyPostionToMap(data,parent) ;
-         });
-       }
   }
 
-  setMyPostionToMap(coordsObj: any, parent: MapBoxComponent): void{
+  getUserPosition() {
+    let parent: MapBoxComponent = this ;
+    return new Promise((resolve,reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((data) => {
+          parent.setMyPostionToMap(data,parent) ;
+        });
+        resolve("Tracking user position") ;
+      }else{
+        reject("Don't track user position") ;
+      }
+    });
+  }
 
+  async get_parkings (){
+    console.log("Getting parkings details...") ;
+    let response = await fetch("https://datos.madrid.es/egob/catalogo/202625-0-aparcamientos-publicos.json") ;
+    let parkingLists = await response.json() ;
+    return parkingLists["@graph"] ;
+
+  }
+   async load_parking(searchString: string  = "")  {
+    this.mapActiveMarkers = []
+    this.mapActiveMarkersParkingName = [] ;
+    try{
+      const  parkingLists = await this.get_parkings() ;
+
+    // go to
+    this.map.flyTo({center: this.currentPosition});
+
+   }catch(error){
+     console.log(error) ;
+   }
+  }
+  setMyPostionToMap(coordsObj: any, parent: MapBoxComponent): void{
     let longitude = coordsObj.coords.longitude ;
     let latitude = coordsObj.coords.latitude ;
     parent.addMarkerToMap({"longitude": longitude, "latitude": latitude,"popupMsg": "My current Location"}, true, false) ;
@@ -51,7 +86,6 @@ export class MapBoxComponent implements OnInit {
   }
 
  addMarkerToMap(dataObj: any , hasPopUp = false, appendToArray = true){
-    console.log(dataObj) ;
     let longitude: number = dataObj["longitude"] ;
     let latitude:number  = dataObj["latitude"] ;
     let marker: mapboxgl.Marker ;
