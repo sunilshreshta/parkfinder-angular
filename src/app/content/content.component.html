@@ -1,0 +1,13 @@
+<h2 class="custom-subheader"> {{currentPage.title}}</h2>
+<div [ngSwitch]="currentPage.id.trim()">
+  <app-map-box *ngSwitchDefault></app-map-box>
+  <div *ngSwitchCase="'pag_coupons'">
+    <div id="couponsList" class="row ml-0  mb-3">
+      <div *ngFor="let coupon of couponsLists" class="col-lg-4 col-md-6 mt-3 d-flex">
+        <app-coupons [couponText]="coupon.description" [couponLogoUrl]="coupon.logo"></app-coupons>
+      </div>
+    </div>
+  </div>
+  <app-contact *ngSwitchCase="'pag_contact'"></app-contact>
+  <app-profile *ngSwitchCase="'pag_profile'"></app-profile>
+</div>

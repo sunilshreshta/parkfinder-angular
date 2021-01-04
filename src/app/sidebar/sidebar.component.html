@@ -1,0 +1,7 @@
+<nav>
+  <ul class="nav flex-column nav-pills  nav-subpages" *ngFor="let page of pages">
+    <li class="nav-item" [ngClass]="page.isActive ? 'active' : ''" (click)="goTo(page)">
+      <a class="nav-link " [ngClass]="page.isActive ? 'active' : ''"  [href]="page.path"><i [class]="page.iconClass"></i> {{page.name}}</a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,12 @@
+$lightBackgorundColor: #f5f5f5 ;
+/* Sticky footer styles
+-------------------------------------------------- */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 50px;
+  line-height: 50px;
+  background-color: $lightBackgorundColor;
+}
