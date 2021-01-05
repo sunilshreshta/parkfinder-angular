@@ -15,6 +15,8 @@ export class MapBoxComponent implements OnInit {
   currentPosition: PosistionCoord = [41.3879,2.16992] ;
   mapActiveMarkers: mapboxgl.Marker[] = [] ;
   mapActiveMarkersParkingName : string[] = [] ;
+
+  isParkingsLoadings: boolean = false ;
   constructor() {
   }
 
@@ -55,6 +57,7 @@ export class MapBoxComponent implements OnInit {
     });
   }
 
+
   async get_parkings (){
     console.log("Getting parkings details...") ;
     let response = await fetch("https://datos.madrid.es/egob/catalogo/202625-0-aparcamientos-publicos.json") ;
@@ -63,14 +66,33 @@ export class MapBoxComponent implements OnInit {
 
   }
    async load_parking(searchString: string  = "")  {
+    this.isParkingsLoadings = true;
     this.mapActiveMarkers = []
     this.mapActiveMarkersParkingName = [] ;
     try{
       const  parkingLists = await this.get_parkings() ;
+      let parent = this ;
+      parkingLists.forEach(function(itemObj: any){
+         let dataObj = {
+                       "longitude": itemObj.location.longitude,
+                       "latitude": itemObj.location.latitude,
+                       "popupMsg": itemObj.title
+                       } ;
+         if(searchString != ""){
+           searchString =  searchString.toLowerCase().trim() ;
+           if(itemObj.title.toLowerCase().trim().indexOf(searchString) >= 0){
+             parent.addMarkerToMap(dataObj, true) ;
+               parent.currentPosition = [itemObj.location.longitude,itemObj.location.latitude] ;
+           }
+         }else{
+           parent.addMarkerToMap(dataObj, true) ;
+             parent.currentPosition = [itemObj.location.longitude,itemObj.location.latitude] ;
+         }
+     })
 
-    // go to
-    this.map.flyTo({center: this.currentPosition});
-
+      // go to
+      this.map.flyTo({center: this.currentPosition});
+      this.isParkingsLoadings = false;
    }catch(error){
      console.log(error) ;
    }
