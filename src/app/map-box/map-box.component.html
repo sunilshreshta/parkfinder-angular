@@ -1,9 +1,16 @@
 <div id="box-parkingFilter">
   <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Buscar por nombre del parking" id="searchableInput">
-    <div class="input-group-append">
-      <button class="btn btn-primary" id="searchParking" type="button" (click)="load_parking()"><i [ngClass]="isParkingsLoadings ? 'fas fa-spinner fa-spin' : 'fas fa-search'"></i></button>
+    <div class="dropdown form-control comp-inputSearchBox">
+      <input  (keyup)="searchDataInputField(searchString)" [(ngModel)]="searchString" type="text" class="form-control dropdown-toogle" placeholder="Buscar por nombre del parking" id="searchableInput" [attr.data-toggle]="isSearchBoxInit ? 'dropdown' : ''">
+      <div class="dropdown-menu comp-inputSearchBoxData">
+        <ul class="inputSearchBox-searchableData" >
+          <li *ngFor="let parking of searchMatchesData" class="searchableData-item" [innerHTML]="parking" (click)="updateSearchString($event)"></li>
 
+        </ul>
+      </div>
+    </div>
+    <div class="input-group-append">
+      <button class="btn btn-primary" id="searchParking" type="button" (click)="searchParking(searchString)"><i [ngClass]="isParkingsLoadings ? 'fas fa-spinner fa-spin' : 'fas fa-search'"></i></button>
     </div>
   </div>
 </div>

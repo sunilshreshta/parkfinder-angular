@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl' ;
 
 type PosistionCoord = [number,number] ;
@@ -6,17 +6,21 @@ type PosistionCoord = [number,number] ;
 @Component({
   selector: 'app-map-box',
   templateUrl: './map-box.component.html',
-  styleUrls: ['./map-box.component.scss']
+  styleUrls: ['./map-box.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MapBoxComponent implements OnInit {
 
   apiKey:string = 'pk.eyJ1Ijoic3VuaWxzaHJlc3RoYSIsImEiOiJja2g3aHN1dTkwNGoxMnNuczMzb2V6YmR4In0.P6Lczg6Nea2oV49dJ1yvsw';
   map: any  ;
+  searchString: string = '' ;
   currentPosition: PosistionCoord = [41.3879,2.16992] ;
   mapActiveMarkers: mapboxgl.Marker[] = [] ;
   mapActiveMarkersParkingName : string[] = [] ;
-
+  searchMatchesData: string[] = [] ;
   isParkingsLoadings: boolean = false ;
+  isSearchBoxInit: boolean = false ;
+
   constructor() {
   }
 
@@ -29,13 +33,12 @@ export class MapBoxComponent implements OnInit {
     .catch((error) => console.log(error)) ;
 
     // MAP BOX Initialization / Configuration ________________________________
-    let latitude = 41.3879;
-    let longitude = 2.16992;
+
     this.map = new mapboxgl.Map({
          accessToken: this.apiKey,
          container: 'parkings_map',
          style: 'mapbox://styles/mapbox/streets-v11',
-         center: [longitude, latitude],
+         center: this.currentPosition,
          zoom: 15
      });
      // Add zoom and rotation controls to the map.
@@ -56,6 +59,7 @@ export class MapBoxComponent implements OnInit {
       }
     });
   }
+
 
 
   async get_parkings (){
@@ -90,8 +94,10 @@ export class MapBoxComponent implements OnInit {
          }
      })
 
-      // go to
-      this.map.flyTo({center: this.currentPosition});
+      if(this.mapActiveMarkersParkingName.length > 0){
+        // go to
+        this.map.flyTo({center: this.currentPosition});
+      }
       this.isParkingsLoadings = false;
    }catch(error){
      console.log(error) ;
@@ -129,5 +135,64 @@ export class MapBoxComponent implements OnInit {
     }
     this.mapActiveMarkers.push(marker) ;
  }
+
+ async searchParking(text: string){
+    let _str: string = text || "" ;
+   // remove all active markers in mapbox
+    this.mapActiveMarkers.forEach((item) => {
+      item.remove() ;
+    });
+
+   await  this.load_parking(_str) ;
+   if(this.mapActiveMarkersParkingName.length > 0){
+     this.searchMatchesData = this.mapActiveMarkersParkingName ;
+     this.isSearchBoxInit = true ;
+   }
+
+
+    //this.
+
+ }
+ searchDataInputField(str: string): void{
+     let parent = this ;
+     let queryMathches: string[] = [] ;
+     str = this.ac_sanitize(str).toLowerCase().trim() ;
+     this.mapActiveMarkersParkingName.forEach((item: string, i: number) => {
+         var pos = parent.ac_sanitize(item).toLowerCase().trim().indexOf(str) ;
+         if( pos > -1){
+           item = item.replace(item.substr(pos,str.length),'<strong class="matchedStr">'+item.substr(pos,str.length)+'</strong>');
+           queryMathches.push(item) ;
+         }
+     }) ;
+
+     this.searchMatchesData = queryMathches ;
+
+
+ }
+ ac_sanitize(str: string): string{
+     let map: any = {
+         'a' : 'á|à|ã|â|À|Á|Ã|Â',
+         'e' : 'é|è|ê|É|È|Ê',
+         'i' : 'í|ì|î|Í|Ì|Î',
+         'o' : 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
+         'u' : 'ú|ù|û|ü|Ú|Ù|Û|Ü',
+         'c' : 'ç|Ç',
+         'n' : 'ñ|Ñ'
+     };
+
+     for (let pattern in map) {
+         str = str.replace(new RegExp(map[pattern], 'g'), pattern);
+     };
+
+     return str;
+ }
+
+ updateSearchString(event: any){
+   this.searchString = (<HTMLInputElement>event.target).innerText ;
+ }
+
+ // SEARCHABLE INPUT
+
+
 
 }
