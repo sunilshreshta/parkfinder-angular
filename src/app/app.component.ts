@@ -7,10 +7,16 @@ import { navPages } from './sidebar/sidebar.component' ;
 })
 export class AppComponent {
   title: string = 'parkfinder-angular';
-  currentPage: navPages =   {id: "pag_home", name: "Home", title: "Park finder", path: "#", iconClass: "fas fa-home", isActive: true, isVisible: true} ;
+  currentPage: navPages =   {id: "pag_home", name: "Home", title: "Park finder", path: "#", iconClass: "fas fa-home", isActive: true} ;
 
+  loggedUserInfo: any = {} ;
   pageHandler(page: navPages){
     this.currentPage = page ;
     console.log(this.currentPage) ;
   }
+
+  userHandler(value: any){
+    this.loggedUserInfo = {isUserLogged: value.isUserLogged, loggedUserInfo: value.userLoginInfo} ;
+  }
+
 }

@@ -9,7 +9,8 @@ import { navPages } from '../sidebar/sidebar.component' ;
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
-  @Input() currentPage: navPages =  {id: "", name: "", title: "",  path: "#", iconClass: "", isActive: false, isVisible: false} ;
+  @Input() currentPage: navPages =  {id: "", name: "", title: "",  path: "#", iconClass: "", isActive: false} ;
+  @Input() loggedUserInfo: any ;
 
   couponsLists = couponsInfo ;
   constructor() {
@@ -17,7 +18,12 @@ export class ContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-  } 
+    console.log("loading content") ;
+  }
+  ngOnChanges(){
+    if(this.currentPage.name == 'Profile' && ! this.loggedUserInfo.isUserLogged){
+        this.currentPage = {id: "", name: "", title: "",  path: "#", iconClass: "", isActive: false} ; 
+    }
+  }
 
 }

@@ -1,0 +1,36 @@
+<div [ngStyle]="{'display': loggedUser ? 'none' : 'inline'}">
+  <div class="dropdown loginOptions" >
+    <button type="button" class="btn btn-primary btn-displayLoginForm" data-toggle="dropdown">
+      <i class="far fa-user"></i> Login
+    </button>
+    <div class="dropdown-menu dropdown-menu-right loginForm">
+      <div class="dropdown-header text-center">Client area</div>
+      <div class="form-loginForm">
+        <div class="input-group-sm input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="far fa-user"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="Username">
+        </div>
+        <div class="input-group-sm input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-key"></i></span>
+          </div>
+          <input type="password" class="form-control" placeholder="Password">
+        </div>
+        <button  type="button" class="btn btn-sm form-control btn-primary btn-signIn" (click)="login()">Sign in </button>
+      </div>
+    </div>
+  </div>
+  <div class="signupOptions">
+    <a href="signup.html" class="text-light">Sign up</a>
+  </div>
+</div>
+<div class="box-loggedUserInfo" [ngStyle]="{'display': loggedUser ? 'inline' : 'none'}">
+  <div class="loggedUserName">
+    <a href="#" class="text-light"> <i class="far fa-user-circle"></i> <span id="topBar-loggedUserName"> {{ userLoginInfo.name + ' ' + userLoginInfo.surname}} </span></a>
+  </div>
+  <div class="logoutOption">
+    <a href="#" class="text-light btn-logout" (click)="logout()">Logout</a>
+  </div>
+</div>

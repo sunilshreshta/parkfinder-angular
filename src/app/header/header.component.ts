@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  @Output() userStatusBridge: EventEmitter<any> = new EventEmitter<any>();
 
   title = "Park Finder" ;
   brandLogoUrl = "../../assets/img/logo.png" ;
@@ -14,4 +15,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  notifyUserStatus(value: any){
+    this.userStatusBridge.emit(value) ;
+  }
 }

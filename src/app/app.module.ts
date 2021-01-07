@@ -13,6 +13,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MapBoxComponent } from './map-box/map-box.component';
 import { ContactComponent } from './contact/contact.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ProfileComponent } from './profile/profile.component';
     SidebarComponent,
     MapBoxComponent,
     ContactComponent,
-    ProfileComponent
+    ProfileComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,

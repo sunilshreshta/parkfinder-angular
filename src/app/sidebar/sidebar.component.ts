@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 export interface navPages {
   id: string;
@@ -7,7 +7,6 @@ export interface navPages {
   path: string;
   iconClass: string;
   isActive: boolean;
-  isVisible: boolean ;
   }
 
 @Component({
@@ -17,15 +16,18 @@ export interface navPages {
 })
 export class SidebarComponent implements OnInit {
   @Output() navlinkClicked: EventEmitter<any> = new EventEmitter<any>();
+  @Input() isUserLogged: boolean = false ;
+  pages: navPages[] = [] ;
 
-  pages: navPages[]= [
-          {id: "pag_home", name: "Home", title: "Park finder", path: "#", iconClass: "fas fa-home", isActive: true, isVisible: true},
-          {id: "pag_coupons", name: "Coupons", title: "Park finder - Coupons", path: "#", iconClass: "fas fa-tags", isActive: false, isVisible: true },
-          {id: "pag_contact", name: "Contact", title: "Park finder - Contact", path: "#", iconClass: "far fa-life-ring", isActive: false, isVisible: true },
-          {id: "pag_profile", name: "Profile", title: "Park finder - My Profile", path: "#", iconClass: "far fa-user", isActive: false, isVisible: false }
-        ];
+  constructor() {
+      this.pages  = [
+           {id: "pag_home", name: "Home", title: "Park finder", path: "#", iconClass: "fas fa-home", isActive: true},
+           {id: "pag_coupons", name: "Coupons", title: "Park finder - Coupons", path: "#", iconClass: "fas fa-tags", isActive: false},
+           {id: "pag_contact", name: "Contact", title: "Park finder - Contact", path: "#", iconClass: "far fa-life-ring", isActive: false},
+           {id: "pag_profile", name: "Profile", title: "Park finder - My Profile", path: "#", iconClass: "far fa-user", isActive: false}
+         ];
 
-  constructor() { }
+  }
 
   ngOnInit(): void {
   }

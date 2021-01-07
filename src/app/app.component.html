@@ -1,5 +1,5 @@
 <header class="container-fluid m-0 p-0">
-  <app-header></app-header>
+  <app-header (userStatusBridge)="userHandler($event)"></app-header>
 </header>
 
 <section class="container-fluid m-0 p-0">
@@ -10,10 +10,11 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-2 col-sm-4 mb-3">
-        <app-sidebar (navlinkClicked)="pageHandler($event)"></app-sidebar>
+        <app-sidebar [isUserLogged]="loggedUserInfo.isUserLogged" (navlinkClicked)="pageHandler($event)"></app-sidebar>
       </div>
       <div class="col-lg-10 col-sm-8">
-        <app-content [currentPage]="currentPage"></app-content>
+        <app-content [loggedUserInfo]="loggedUserInfo" [currentPage]="currentPage"></app-content>
+
       </div>
     </div>
   </div>
