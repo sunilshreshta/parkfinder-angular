@@ -1,0 +1,14 @@
+<div class="box-userInfo">
+  <table class="table ">
+    <tbody id="table-userInfo">
+      <tr *ngFor="let infoType of loggedUserInfo.userInfo | keyvalue">
+          <td>
+              <label class="col-form-label col-form-label-sm" for="{{infoType.key}}">{{infoType.key}}
+              </label>
+          </td>
+          <td><input type="text" id="{{infoType.key}}" class="form-control form-control-sm" value="{{infoType.value}}" />
+          </td>
+       </tr>
+    </tbody>
+  </table>
+</div>

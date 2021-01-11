@@ -37,7 +37,7 @@ export class UserLoginComponent implements OnInit {
   }
   login(): void{
       this.loggedUser = true ;
-      this.isUserLogged.emit({isUserLogged: true, loggedUserInfo: this.userLoginInfo}) ;
+      this.isUserLogged.emit({isUserLogged: true, userInfo: this.userLoginInfo}) ;
   }
   logout(): void{
       this.loggedUser = false  ;

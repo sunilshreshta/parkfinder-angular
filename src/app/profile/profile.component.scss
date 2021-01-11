@@ -1,0 +1,19 @@
+#table-userInfo {
+  tr{
+    td{
+      &:first-child{
+        text-align: right;
+         text-transform: capitalize;
+      }
+      &:last-child{
+        width: 75% ;
+        input{
+          max-width: 75% ;
+        }
+      }
+    }
+  }
+  td{
+   border: none;
+ }
+}
