@@ -35,26 +35,12 @@ export class UserLoginComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  saveLoginState(username: string): void{
-      localStorage.setItem("_uid", username);
-  }
-  deleteLoginState():void{
-    localStorage.removeItem("_uid") ;
-  }
-  isAlreadyLogin(): boolean{
-    if(localStorage.getItem("_uid") !== null){
-      return true ;
-    }
-    return false ;
-  }
   login(): void{
-      this.saveLoginState(this.userLoginInfo.username) ;
       this.loggedUser = true ;
       this.isUserLogged.emit({isUserLogged: true, loggedUserInfo: this.userLoginInfo}) ;
   }
   logout(): void{
       this.loggedUser = false  ;
-      this.deleteLoginState();
       this.isUserLogged.emit(false)
   }
 

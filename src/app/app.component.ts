@@ -16,7 +16,8 @@ export class AppComponent {
   }
 
   userHandler(value: any){
-    this.loggedUserInfo = {isUserLogged: value.isUserLogged, loggedUserInfo: value.userLoginInfo} ;
+    this.loggedUserInfo = value;
+    //console.log(this.loggedUserInfo) ;
   }
 
 }

@@ -39,8 +39,5 @@ import { UserLoginComponent } from './user-login/user-login.component';
 })
 export class AppModule {
 
-  currentPage: string = 'home' ;
-  navLinkshandler(value: string): void{
-    this.currentPage = value.trim() ;
-  }
+
 }

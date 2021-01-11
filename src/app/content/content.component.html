@@ -9,5 +9,5 @@
     </div>
   </div>
   <app-contact *ngSwitchCase="'pag_contact'"></app-contact>
-  <app-profile *ngSwitchCase="'pag_profile'"></app-profile>
+  <app-profile [loggedUserInfo]="loggedUserInfo" *ngSwitchCase="'pag_profile'"></app-profile>
 </div>

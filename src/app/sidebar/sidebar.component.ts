@@ -33,7 +33,6 @@ export class SidebarComponent implements OnInit {
   }
 
   goTo(value: navPages) {
-    console.log(value) ;
     this.inActiveAllPages() ;
     value.isActive = true ;
     this.navlinkClicked.emit(value);

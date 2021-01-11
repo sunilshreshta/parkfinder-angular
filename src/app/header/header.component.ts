@@ -17,5 +17,6 @@ export class HeaderComponent implements OnInit {
 
   notifyUserStatus(value: any){
     this.userStatusBridge.emit(value) ;
+    //console.log(value) ; 
   }
 }
